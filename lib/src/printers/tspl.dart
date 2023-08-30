@@ -2,7 +2,7 @@ import 'dart:core';
 import 'dart:typed_data';
 
 import 'package:smart_bluetooth_pos_printer/printer.dart';
-import 'package:image/image.dart';
+import 'package:image/image.dart' as ImageLib;
 
 import '../utils.dart';
 
@@ -190,7 +190,7 @@ class TsplPrinter<T> extends GenericPrinter<T> {
 
   @override
   Future<bool> image(Uint8List image, {int threshold = 150}) async {
-    final decodedImage = decodeImage(image)!;
+    final decodedImage = ImageLib.decodeImage(image)!;
     final rasterizeImage = _toRaster(decodedImage, dpi: int.parse(dpi));
     final converted = toPixel(
         ImageData(width: decodedImage.width, height: decodedImage.height),
@@ -220,20 +220,20 @@ class TsplPrinter<T> extends GenericPrinter<T> {
     }, delayMs: ms);
   }
 
-  ImageRaster _toRaster(Image imgSrc, {int dpi = 200}) {
+  ImageRaster _toRaster(ImageLib.Image imgSrc, {int dpi = 200}) {
     // 200 DPI : 1 mm = 8 dots
     // 300 DPI : 1 mm = 12 dots
     // width 35mm = 280px
     // height 25mm = 200px
     final int multiplier = dpi == 200 ? 8 : 12;
-    final Image image = copyResize(imgSrc,
+    final ImageLib.Image image = ImageLib.copyResize(imgSrc,
         width: int.parse(this._sizeWidth) * multiplier,
         height: int.parse(this._sizeHeight) * multiplier,
-        interpolation: Interpolation.linear);
+        interpolation: ImageLib.Interpolation.linear);
     final int widthPx = image.width;
     final int heightPx = image.height;
     final int widthBytes = widthPx ~/ 8; // one byte is 8 bits
-    final List<int> imageBytes = image.getBytes(format: Format.argb);
+    final List<int> imageBytes = image.getBytes();
 
     List<int> monoPixel = [];
     for (int i = 0; i < imageBytes.length; i += 4) {
