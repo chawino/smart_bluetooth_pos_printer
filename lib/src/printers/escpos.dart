@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:smart_bluetooth_pos_printer/printer.dart';
 import 'package:smart_bluetooth_pos_printer/src/utils.dart';
-import 'package:image/image.dart';
+import 'package:image/image.dart' as ImageLib;
 
 class EscPosPrinter<T> extends GenericPrinter<T> {
   EscPosPrinter(PrinterConnector<T> connector, T model,
@@ -21,7 +21,7 @@ class EscPosPrinter<T> extends GenericPrinter<T> {
 
   @override
   Future<bool> image(Uint8List image, {int threshold = 150}) async {
-    final decodedImage = decodeImage(image)!;
+    final decodedImage = ImageLib.decodeImage(image)!;
 
     final converted = toPixel(
         ImageData(width: decodedImage.width, height: decodedImage.height),
