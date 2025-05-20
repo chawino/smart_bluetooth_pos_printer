@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:smart_bluetooth_pos_printer/printer.dart';
 import 'package:image/image.dart';
 
-import '../utils.dart';
+import '../utils.dart' as imgutils;
 
 class ImageRaster {
   ImageRaster({required this.data, required this.width, required this.height});
@@ -192,8 +192,9 @@ class TsplPrinter<T> extends GenericPrinter<T> {
   Future<bool> image(Uint8List image, {int threshold = 150}) async {
     final decodedImage = decodeImage(image)!;
     final rasterizeImage = _toRaster(decodedImage, dpi: int.parse(dpi));
-    final converted = toPixel(
-        ImageData(width: decodedImage.width, height: decodedImage.height),
+    final converted = imgutils.toPixel(
+        imgutils.ImageData(
+            width: decodedImage.width, height: decodedImage.height),
         paperWidth: int.parse(_sizeWidth),
         dpi: int.parse(dpi),
         isTspl: true);
