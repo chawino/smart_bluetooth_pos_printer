@@ -4,8 +4,9 @@
 @interface FlutterPosPrinterPlatformPlugin ()
 @property(nonatomic, retain) NSObject<FlutterPluginRegistrar> *registrar;
 @property(nonatomic, retain) FlutterMethodChannel *channel;
-@property(nonatomic, retain) BluetoothPrintStreamHandler *stateStreamHandler;
+@property(nonatomic, retain) SmartBTPrintStreamHandler *stateStreamHandler;
 @property(nonatomic) NSMutableDictionary *scannedPeripherals;
+@property(nonatomic,copy)ConnectDeviceState state;
 @end
 
 @implementation FlutterPosPrinterPlatformPlugin
@@ -20,7 +21,7 @@
   instance.scannedPeripherals = [NSMutableDictionary new];
     
   // STATE
-  BluetoothPrintStreamHandler* stateStreamHandler = [[BluetoothPrintStreamHandler alloc] init];
+  SmartBTPrintStreamHandler* stateStreamHandler = [[SmartBTPrintStreamHandler alloc] init];
   [stateChannel setStreamHandler:stateStreamHandler];
   instance.stateStreamHandler = stateStreamHandler;
 
@@ -168,7 +169,7 @@
 
 @end
 
-@implementation BluetoothPrintStreamHandler
+@implementation SmartBTPrintStreamHandler
 
 - (FlutterError*)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
   self.sink = eventSink;

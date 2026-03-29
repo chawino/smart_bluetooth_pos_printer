@@ -13,15 +13,17 @@ A new Flutter plugin project.
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
-  s.public_header_files = 'Classes/**/*.h'
+  # Exclude GSDK connectivity files — they are already provided by bluetooth_print_plus
+  # via the GSDK CocoaPod. Including them causes duplicate symbol linker errors.
+  s.source_files = 'Classes/FlutterPosPrinterPlatformPlugin.{h,m}'
+  s.public_header_files = 'Classes/FlutterPosPrinterPlatformPlugin.h'
   s.static_framework = true
   s.dependency 'Flutter'
   s.platform = :ios, '9.0'
 
-  # Import all * .a libraries in the Classes folder
+  # libGSDK.a is already provided by bluetooth_print_plus's GSDK CocoaPod dependency.
+  # Including it here causes duplicate symbol linker errors. Skip vendored libraries.
   s.frameworks = ["SystemConfiguration", "CoreTelephony","WebKit"]
-  s.vendored_libraries = '**/*.a'
 
   # Flutter.framework does not contain a i386 slice.
   # s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
