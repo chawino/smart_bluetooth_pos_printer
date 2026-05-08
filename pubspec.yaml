@@ -4,7 +4,7 @@ version: 1.0.0
 homepage: https://github.com/arthas1888/smart_bluetooth_pos_printer
 
 environment:
-  sdk: ">=2.13.0 <3.0.0"
+  sdk: ">=2.13.0 <4.0.0"
   flutter: ">=1.20.0"
 
 dependencies:
@@ -15,7 +15,7 @@ dependencies:
   enum_to_string: ^2.0.1
   image: ^4.0.17
 
-  network_info_plus: ^7.0.0
+  network_info_plus: ">=7.0.0 <9.0.0"
   ping_discover_network_forked: ^0.0.1
   rxdart: ^0.28.0
 
